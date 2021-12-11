@@ -5,7 +5,6 @@ let api_path = 'karen666';
 // 產品列表 & 購物車列表 data
 let productListData = [];
 let cartListData = [];
-let cartListPrice = ''
 
 // 初始化 data 資料
 function init() {
@@ -38,7 +37,6 @@ function getCartListData() {
 
     axios.get(url)
         .then(function (response) {
-            cartListPrice = response.data.finalTotal; // 價格個別抓出
             cartListData = response.data.carts;
             renderCartList(cartListData);
         })
@@ -105,8 +103,8 @@ const totalPrice = document.querySelector('#totalPrice');
 function renderCartList(newCartListData) {
 
     let cartItemDataContent = ''
-    let totalPriceStr = `NT$${cartListPrice}`
-
+    let cartListPrice = 0;
+    
     // post 購物車 API 有新的購物車資料會傳入這個函式
     newCartListData.forEach(function (item) {
 
@@ -128,10 +126,16 @@ function renderCartList(newCartListData) {
                     </td>
                 </tr>
         `
-        // console.log(item.id);
+
+        // 計算總金額
+        cartListPrice += Number(item.product.price)
+        
     })
 
+    
     cartItemDataArea.innerHTML = cartItemDataContent;
+    // 總金額
+    let totalPriceStr = `NT$${cartListPrice}`
     totalPrice.textContent = totalPriceStr;
 
     const eachDiscardBtn = document.querySelectorAll('.eachDiscardBtn');
