@@ -259,7 +259,7 @@ function createOrder() {
       .then(function (response) {
         console.log(response.data);
         order = {}
-        // getCartListData();
+        getCartListData();
         alert('訂單已成功送出！')
       })
       .catch(function(error){
